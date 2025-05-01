@@ -1,10 +1,10 @@
-# @author Colin de Seroux, phenix333.dev@gmail.com
+# @author Colin de Seroux
 
 import tkinter as tk
 from _decimal import Decimal, ROUND_HALF_DOWN
 
 
-# Ouvrir le fichier de sortie
+# Open output file
 def draw_path(x0, y0, x1, y1, color):
     start_x = x0 * scale_factor
     start_y = (rows - y0) * scale_factor
@@ -33,70 +33,70 @@ def draw_path(x0, y0, x1, y1, color):
             start_y = next_y
 
 
-# Ouvrir le fichier d"entrée"
+# Open input file
 with open("b.txt", "r") as file:
     lines = file.readlines()
 
-# Ouvrir le fichier de sortie
+# Open output file
 with open("ends_b.txt", "r") as file:
     red_path_lines = file.readlines()
 
-# Extraire les informations de la première ligne du fichier d"entrée
+# Extract information from the first line of the input file
 rows, columns, vehicles, trips, bonus, max_steps = map(int, lines[0].split())
 
-# Échelle actuelle de la fenêtre
+# Current window scale
 current_scale = 1.0
-# Région de défilement initial
+# Initial scroll region
 scroll_region = (0, 0, 0, 0)
 
 
-# Fonction pour zoomer (agrandir)
+# Zoom function (enlarge)
 def zoom_in():
     global current_scale
     current_scale *= 1.2
     canvas.scale("all", 0, 0, current_scale, current_scale)
 
 
-# Fonction pour dé-zoomer (réduire)
+# Unzoom (reduce) function
 def zoom_out():
     global current_scale
     current_scale /= 1.2
     canvas.scale("all", 0, 0, current_scale, current_scale)
 
 
-# Fonction pour faire défiler vers la gauche
+# Scroll left function
 def pan_left():
     canvas.xview_scroll(-1, "units")
 
 
-# Fonction pour faire défiler vers la droite
+# Scroll right function
 def pan_right():
     canvas.xview_scroll(1, "units")
 
 
-# Fonction pour faire défiler vers le haut
+# Scroll up function
 def pan_up():
     canvas.yview_scroll(-1, "units")
 
 
-# Fonction pour faire défiler vers le bas
+# Scroll down function
 def pan_down():
     canvas.yview_scroll(1, "units")
 
 
-# Création de la fenêtre principale
+# Creating the main window
 window = tk.Tk()
 window.title("Self-driving-rides")
 
-# Calcul du facteur d"échelle en fonction de la hauteur de l"écran
+# Calculating the scaling factor as a function of screen height
 scale_factor = window.winfo_screenheight() / rows
 scale_factor = Decimal(scale_factor).quantize(Decimal(".01"), rounding=ROUND_HALF_DOWN)
 
-# Création du canevas
+# Creating the canvas
 canvas = tk.Canvas(window, width=window.winfo_screenwidth(), height=window.winfo_screenheight())
 canvas.pack()
 
-# Associer des événements de zoom et de défilement aux touches du clavier
+# Associate zoom and scroll events with keyboard keys
 window.bind("<KeyPress-plus>", lambda event: zoom_in())
 window.bind("<KeyPress-minus>", lambda event: zoom_out())
 window.bind("<Left>", lambda event: pan_left())
@@ -105,28 +105,31 @@ window.bind("<Up>", lambda event: pan_up())
 window.bind("<Down>", lambda event: pan_down())
 
 
-# Le cadrillage
+# The grid
 # for i in range(rows + 1):
 #     canvas.create_line(0, i * scale_factor, columns * scale_factor, i * scale_factor)
 # for j in range(columns + 1):
 #     canvas.create_line(j * scale_factor, 0, j * scale_factor, rows * scale_factor)
 
-# Fonction pour dessiner les trajets faits
+# Drawing function for routes taken
 def draw_red_paths(index=0):
     if index < len(red_path_lines):
         parts = red_path_lines[index].strip().split()
+
         if len(parts) >= 2:
             num_trips = int(parts[0])
             for i in range(1, num_trips + 1):
                 trip_num = int(parts[i])
                 if trip_num < len(lines):
-                    x0, y0, x1, y1, _, _ = map(int, lines[num_trips + 1].split())
+                    x0, y0, x1, y1, _, _ = map(int, lines[trip_num + 1].split())
+                    print("x0:", x0, ", y0:", y0, ", x1:", x1, ", y1:,", y1)
                     draw_path(x0, y0, x1, y1, "red")
+
         print(index)
         window.after(1, draw_red_paths, index + 1)
 
 
-# Fonction pour dessiner les trajets
+# Route drawing function
 def trips(index=1):
     if index < len(lines):
         x0, y0, x1, y1, earliest_start, finish = map(int, lines[index].split())
@@ -142,7 +145,7 @@ def trips(index=1):
         print(index - 1)
         window.after(1, trips, index + 1)
     else:
-        # Appel de la fonction pour afficher les trajets faits
+        # Calling up the function to display journeys made
         draw_red_paths()
 
 
@@ -166,19 +169,22 @@ def print_rides_not_assigned():
             for num in range(abs(last_ride_number - ride_number) - 1):
                 print("Ride number:", last_ride_number + num + 1)
                 x0, y0, x1, y1, earliest_start, latest_finish = map(int, lines[last_ride_number + num + 1].split())
-                print("x0:", x0, ", y0:", y0, ", x1:", x1, ", y1,", y1, ", earliest_start:", earliest_start,
+                print("x0:", x0, ", y0:", y0, ", x1:", x1, ", y1:,", y1, ", earliest_start:", earliest_start,
                       ", latest_finish:", latest_finish)
 
         last_ride_number = ride_number
 
 
-# Appel de la fonction pour afficher  dans la console les trajets non attribués
+# Call the function to display unassigned routes in the console
 print_rides_not_assigned()
 
-# Appel de la fonction pour dessiner les trajets
+# Calling up the function for drawing routes
 window.after(1000, trips)
 
-# Création d"une légende pour les couleurs des trajets
+# Calls up the function for drawing completed routes (add this if you wish to display completed routes only, without possible routes).
+# window.after(1000, draw_red_paths)
+
+# Creating a legend for route colors
 legend_frame = tk.Frame(window)
 legend_frame.pack()
 

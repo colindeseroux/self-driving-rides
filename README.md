@@ -4,43 +4,43 @@ Hashcode 2018
 
 ## Description
 
-Ce programme est une application Python utilisant la bibliothèque tkinter pour créer une interface graphique permettant de visualiser les trajets effectués par des véhicules autonomes dans un environnement donné. Les données des trajets sont lues à partir d’un fichier d’entrée (`*.txt`) et les trajets complétés sont lus à partir d’un fichier de sortie (`ends_*.txt`).
+This is a Python application using the `tkinter` library to provide a graphical interface for visualizing trips taken by autonomous vehicles in a simulated environment. Input data is read from a file (`*.txt`), and completed trips are read from an output file (`ends_*.txt`).
 
-## Fonctionnalités
+## Features
 
-- Affichage des itinéraires des véhicules sous forme de lignes colorées sur un canevas.
-- Zoom avant et arrière pour une meilleure visualisation.
-- Défilement horizontal et vertical pour explorer l'ensemble de la carte.
-- Affichage d'une légende pour interpréter les couleurs des trajets.
-- Détection et affichage dans la console des trajets non attribués.
+- Visualize vehicle routes as colored lines on a canvas.
+- Zoom in and out for detailed or broader views.
+- Scroll horizontally and vertically to navigate the entire map.
+- Display a color legend to interpret route statuses.
+- Console output highlights unassigned trips.
 
-## Utilisation
+## Usage
 
-1. Assurez-vous que les fichiers `*.txt` (fichier d’entrée) et `ends_*.txt` (fichier de sortie) sont dans le même répertoire que ce programme.
-2. Exécutez le programme en lançant le script Python.
-3. Utilisez les touches du clavier pour les actions suivantes :
+1. Ensure that both the input (`*.txt`) and output (`ends_*.txt`) files are in the same directory as this script.
+2. Run the Python script to launch the visualizer.
+3. Use the following keyboard controls:
 
-   - `+` : Zoom avant
-   - `-` : Zoom arrière
-   - Flèche gauche : Défilement vers la gauche
-   - Flèche droite : Défilement vers la droite
-   - Flèche haut : Défilement vers le haut
-   - Flèche bas : Défilement vers le bas
+   - `+` : Zoom in
+   - `-` : Zoom out
+   - Left arrow: Scroll left
+   - Right arrow: Scroll right
+   - Up arrow: Scroll up
+   - Down arrow: Scroll down
 
-## Exemple de légende des couleurs de trajets
+## Example Route Color Legend
 
-- Trajets non atteignables : Jaune
-- Bonus non atteignable : Bleu
-- Bonus atteignable : Vert
+- Unreachable routes: Yellow
+- Bonus unreachable: Blue
+- Bonus reachable: Green
 
-## Avertissement
+## Warning
 
-Ce programme est destiné uniquement à des fins de visualisation et de démonstration. Il ne garantit pas l’exactitude ou la validité des données de trajet. Les trajets non attribués sont détectés et affichés dans la console, mais il est conseillé de vérifier les données pour une analyse plus approfondie.
+This tool is intended for visualization and demonstration purposes only. It does not guarantee the accuracy or correctness of the trip data. Unassigned trips will be detected and shown in the console, but further analysis is recommended.
 
-## Remarques
+## Notes
 
-Ce code utilise la bibliothèque tkinter pour créer l’interface graphique. Assurez-vous que tkinter est installé sur votre système pour exécuter ce programme.
+This program requires the `tkinter` library. Ensure it's installed and available in your Python environment.
 
-## Plus de 300 trajets, c’est compliqué / ne soyez pas pressé
+## Over 300 trips? Be patient.
 
-Si vous avez des idées d’optimisation...
+If you have ideas for optimization...
